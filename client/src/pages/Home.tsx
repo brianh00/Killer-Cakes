@@ -1,31 +1,22 @@
 import { motion } from "framer-motion";
 import { CakeCard } from "@/components/ui/cake-card";
 import heroImage from "@assets/generated_images/decadent_chocolate_drip_cake_hero_image.png";
-import cake1 from "@assets/generated_images/artistic_pink_velvet_cake.png";
-import cake2 from "@assets/generated_images/gothic_dark_wedding_cake.png";
-import cake3 from "@assets/generated_images/vibrant_rainbow_cake_slice.png";
 import { Link } from "wouter";
 import { ArrowRight, Star } from "lucide-react";
 
 export function Home() {
   const featuredCakes = [
     {
-      title: "Neon Velvet",
-      description: "Our signature pink velvet sponge with electric buttercream swirls. A party in every bite.",
-      price: "$65",
-      image: cake1,
+      title: "Custom Creation 1",
+      description: "A stunning bespoke cake designed specifically for your special occasion.",
+      price: "$85",
+      image: "https://photos.google.com/photo/AF1QipO1LMjX6l0mhKro3yqGD1QKyFgPA3OuUBgNhhqv",
     },
     {
-      title: "Midnight Vows",
-      description: "Black cocoa fondant, deep red sugar roses, and a heart of dark chocolate ganache.",
-      price: "$120",
-      image: cake2,
-    },
-    {
-      title: "Prism Slice",
-      description: "Seven layers of fruit-infused sponge. Taste the rainbow, but make it killer.",
-      price: "$8/slice",
-      image: cake3,
+      title: "Custom Creation 2",
+      description: "Handcrafted with precision and the finest ingredients available in Atlanta.",
+      price: "$95",
+      image: "https://photos.google.com/photo/AF1QipOl1ZERkrw9fow55Uj2b6HcvRRPcYSNuD2xxJ7_",
     },
   ];
 
@@ -87,7 +78,7 @@ export function Home() {
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {featuredCakes.map((cake, index) => (
               <CakeCard key={index} {...cake} />
             ))}
