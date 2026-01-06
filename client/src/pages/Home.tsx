@@ -1,22 +1,24 @@
 import { motion } from "framer-motion";
 import { CakeCard } from "@/components/ui/cake-card";
 import heroImage from "@assets/generated_images/decadent_chocolate_drip_cake_hero_image.png";
+import cherryCake from "@assets/cake_cherry_1767726882678.jpg";
+import sonicCake from "@assets/cake_sonic_1767726882679.jpg";
 import { Link } from "wouter";
 import { ArrowRight, Star } from "lucide-react";
 
 export function Home() {
   const featuredCakes = [
     {
-      title: "Custom Creation 1",
-      description: "A stunning bespoke cake designed specifically for your special occasion.",
-      price: "$85",
-      image: "https://photos.google.com/photo/AF1QipO1LMjX6l0mhKro3yqGD1QKyFgPA3OuUBgNhhqv",
+      title: "Vintage Cherry Dream",
+      description: "A classic piped masterpiece featuring sky blue frosting and hand-placed maraschino cherries.",
+      price: "$75",
+      image: cherryCake,
     },
     {
-      title: "Custom Creation 2",
-      description: "Handcrafted with precision and the finest ingredients available in Atlanta.",
+      title: "Sonic Speedster",
+      description: "Level up your celebration with this high-octane custom Sonic the Hedgehog themed cake.",
       price: "$95",
-      image: "https://photos.google.com/photo/AF1QipOl1ZERkrw9fow55Uj2b6HcvRRPcYSNuD2xxJ7_",
+      image: sonicCake,
     },
   ];
 
@@ -78,7 +80,7 @@ export function Home() {
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {featuredCakes.map((cake, index) => (
               <CakeCard key={index} {...cake} />
             ))}
