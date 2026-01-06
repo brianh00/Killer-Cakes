@@ -10,7 +10,6 @@ export function Navbar() {
   const links = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
   ];
 
   return (
@@ -74,6 +73,16 @@ export function Navbar() {
                   </a>
                 </Link>
               ))}
+              <Link href="/contact">
+                <a
+                  onClick={() => setIsOpen(false)}
+                  className={`text-2xl font-heading uppercase ${
+                    location === "/contact" ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  Contact
+                </a>
+              </Link>
               <div className="flex gap-4 mt-4 pt-4 border-t border-border">
                 <Instagram className="text-muted-foreground hover:text-primary transition-colors" />
                 <Facebook className="text-muted-foreground hover:text-primary transition-colors" />
