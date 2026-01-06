@@ -1,5 +1,4 @@
 import { Instagram, Facebook, Twitter, MapPin, Mail, Phone } from "lucide-react";
-import logo from "@assets/killer_cake_1767727881317.jpg";
 
 export function Footer() {
   return (
@@ -7,13 +6,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-12 text-center md:text-left">
           <div>
-            <div className="mb-4 flex justify-center md:justify-start">
-              <img 
-                src={logo} 
-                alt="Killer Cakes Logo" 
-                className="h-16 w-auto invert brightness-200"
-              />
-            </div>
+            <h3 className="text-2xl font-heading text-primary mb-4">Killer Cakes</h3>
             <p className="text-muted-foreground mb-4">
               Bold flavors. Killer designs. Atlanta's most dangerous bakery.
             </p>

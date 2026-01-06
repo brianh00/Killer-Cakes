@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { CakeCard } from "@/components/ui/cake-card";
-import heroImage from "@assets/generated_images/decadent_chocolate_drip_cake_hero_image.png";
+import logoBackground from "@assets/killer_cake_1767727881317.jpg";
 import cherryCake from "@assets/cake_cherry_1767726882678.jpg";
 import sonicCake from "@assets/cake_sonic_1767726882679.jpg";
 import portraitCake from "@assets/cake_picture_1767727288673.jpg";
@@ -35,11 +35,11 @@ export function Home() {
       <section className="relative h-[90vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImage}
-            alt="Killer Chocolate Cake"
-            className="w-full h-full object-cover opacity-60"
+            src={logoBackground}
+            alt="Killer Cakes"
+            className="w-full h-full object-cover opacity-40 mix-blend-luminosity"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
         </div>
 
         <div className="container mx-auto px-4 z-10 relative">
