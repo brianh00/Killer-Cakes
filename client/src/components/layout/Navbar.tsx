@@ -1,7 +1,8 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Facebook, Phone } from "lucide-react";
+import { Menu, X, Instagram, Facebook } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "@assets/killer_cake_1767727881317.jpg";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,10 +16,14 @@ export function Navbar() {
 
   return (
     <nav className="fixed w-full z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/">
-          <a className="text-2xl md:text-3xl font-heading text-primary tracking-tighter hover:scale-105 transition-transform">
-            KILLER CAKES
+          <a className="flex items-center gap-2 hover:scale-105 transition-transform">
+            <img 
+              src={logo} 
+              alt="Killer Cakes Logo" 
+              className="h-14 w-auto invert brightness-200"
+            />
           </a>
         </Link>
 
