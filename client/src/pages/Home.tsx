@@ -3,6 +3,7 @@ import { CakeCard } from "@/components/ui/cake-card";
 import heroImage from "@assets/generated_images/decadent_chocolate_drip_cake_hero_image.png";
 import cherryCake from "@assets/cake_cherry_1767726882678.jpg";
 import sonicCake from "@assets/cake_sonic_1767726882679.jpg";
+import portraitCake from "@assets/cake_picture_1767727288673.jpg";
 import { Link } from "wouter";
 import { ArrowRight, Star } from "lucide-react";
 
@@ -13,6 +14,12 @@ export function Home() {
       description: "A classic piped masterpiece featuring sky blue frosting and hand-placed maraschino cherries.",
       price: "$75",
       image: cherryCake,
+    },
+    {
+      title: "Custom Portrait Cake",
+      description: "Personalized edible art on a stunning blue-textured canvas. The perfect way to celebrate your favorite memories.",
+      price: "$110",
+      image: portraitCake,
     },
     {
       title: "Sonic Speedster",
@@ -80,7 +87,7 @@ export function Home() {
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8">
             {featuredCakes.map((cake, index) => (
               <CakeCard key={index} {...cake} />
             ))}
