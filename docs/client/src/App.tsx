@@ -10,7 +10,7 @@ import { Contact } from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 
 function Router() {
-  const base = import.meta.env.PROD ? "/Killer-Cakes" : "/";
+  const base = import.meta.env.PROD ? "/Killer-Cakes/" : "/";
   return (
     <WouterRouter base={base}>
       <div className="flex flex-col min-h-screen">

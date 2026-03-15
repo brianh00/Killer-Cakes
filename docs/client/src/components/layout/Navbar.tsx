@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
-  const base = import.meta.env.PROD ? "/Killer-Cakes" : "";
-  const normalizedLocation = location.startsWith(base) ? location.slice(base.length) : location;
+  const base = import.meta.env.PROD ? "/Killer-Cakes/" : "/";
+  const normalizedLocation = location.startsWith(base) ? "/" + location.slice(base.length) : location;
 
   const links = [
     { href: "", label: "Home" },

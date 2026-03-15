@@ -62,7 +62,7 @@ export function Home() {
                   Start Order <ArrowRight />
                 </a>
               </Link>
-              <Link href="/about">
+              <Link href="about">
                 <a className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 font-heading uppercase text-lg tracking-widest transition-colors flex items-center justify-center">
                   Our Story
                 </a>
