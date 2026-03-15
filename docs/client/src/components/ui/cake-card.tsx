@@ -9,7 +9,7 @@ interface CakeCardProps {
   orderLink?: string;
 }
 
-export function CakeCard({ image, title, description, price }: CakeCardProps) {
+export function CakeCard({ image, title, description, price, orderLink }: CakeCardProps) {
   return (
     <motion.div
       whileHover={{ y: -10 }}
