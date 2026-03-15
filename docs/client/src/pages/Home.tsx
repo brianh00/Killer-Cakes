@@ -57,7 +57,7 @@ export function Home() {
               Atlanta's boldest custom cakes. We don't do boring. We do delicious, dangerous, and unforgettable.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact">
+              <Link href="contact">
                 <a className="bg-primary hover:bg-primary/90 text-white px-8 py-4 font-heading uppercase text-lg tracking-widest transition-transform hover:scale-105 flex items-center justify-center gap-2">
                   Start Order <ArrowRight />
                 </a>
@@ -80,7 +80,7 @@ export function Home() {
               <h2 className="text-4xl md:text-5xl font-heading mb-4 text-white">Fresh From The Lab</h2>
               <p className="text-muted-foreground">The latest creations from our kitchen.</p>
             </div>
-            <Link href="/contact">
+            <Link href="contact">
               <a className="text-primary hover:text-white transition-colors font-heading uppercase flex items-center gap-2">
                 View Full Menu <ArrowRight size={20} />
               </a>
@@ -89,7 +89,11 @@ export function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {featuredCakes.map((cake, index) => (
-              <CakeCard key={index} {...cake} />
+              <CakeCard
+                key={index}
+                {...cake}
+                orderLink={`contact?cake=${encodeURIComponent(cake.title)}`}
+              />
             ))}
           </div>
         </div>

@@ -6,6 +6,7 @@ interface CakeCardProps {
   title: string;
   description: string;
   price: string;
+  orderLink?: string;
 }
 
 export function CakeCard({ image, title, description, price }: CakeCardProps) {
@@ -21,7 +22,7 @@ export function CakeCard({ image, title, description, price }: CakeCardProps) {
           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-          <Link href="/contact">
+          <Link href={orderLink ?? "contact"}>
             <a className="w-full bg-primary text-primary-foreground py-3 text-center font-heading uppercase text-sm hover:bg-white hover:text-black transition-colors">
               Order This
             </a>

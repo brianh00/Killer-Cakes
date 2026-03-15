@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useLocation } from "wouter";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,29 +9,53 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 
-const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Invalid email address."),
-  date: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Please select a valid date",
-  }),
-  flavor: z.string().min(1, "Please select a flavor vibe."),
-  message: z.string().min(10, "Tell us more about your killer idea."),
-});
+const cakeOptions = [
+  "Vintage Cherry Dream",
+  "Custom Portrait Cake",
+  "Sonic Speedster",
+  "Other",
+];
+
+const formSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters."),
+    email: z.string().email("Invalid email address."),
+    phone: z.string().min(7, "Please enter a phone number."),
+    date: z.string().refine((val) => !isNaN(Date.parse(val)), {
+      message: "Please select a valid date",
+    }),
+    desiredCake: z.string().min(1, "Please select a desired cake."),
+    otherCake: z.string().optional(),
+    details: z.string().min(10, "Tell us more about your killer idea."),
+  })
+  .refine(
+    (data) => data.desiredCake !== "Other" || (data.otherCake && data.otherCake.length > 5),
+    {
+      path: ["otherCake"],
+      message: "Please describe your custom cake.",
+    },
+  );
 
 export function Contact() {
   const { toast } = useToast();
-  
+  const [location] = useLocation();
+  const query = new URLSearchParams(location.split("?")[1] || "");
+  const preselectedCake = query.get("cake") || "";
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       date: "",
-      flavor: "",
-      message: "",
+      desiredCake: preselectedCake || cakeOptions[0],
+      otherCake: "",
+      details: "",
     },
   });
+
+  const desiredCake = form.watch("desiredCake");
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -119,14 +144,14 @@ export function Contact() {
                     </FormItem>
                   )}
                 />
-                 <FormField
+                <FormField
                   control={form.control}
-                  name="flavor"
+                  name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="uppercase font-bold tracking-wider">Vibe / Flavor Profile</FormLabel>
+                      <FormLabel className="uppercase font-bold tracking-wider">Phone</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g. Dark Chocolate, Fruity, Surprise Me" {...field} className="bg-background border-input focus:border-primary h-12" />
+                        <Input placeholder="(555) 123-4567" {...field} className="bg-background border-input focus:border-primary h-12" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -136,15 +161,58 @@ export function Contact() {
 
               <FormField
                 control={form.control}
-                name="message"
+                name="desiredCake"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase font-bold tracking-wider">The Details</FormLabel>
+                    <FormLabel className="uppercase font-bold tracking-wider">Desired Cake</FormLabel>
                     <FormControl>
-                      <Textarea 
-                        placeholder="Tell us about the event, the design you have in mind, or if you want us to go wild..." 
-                        className="bg-background border-input focus:border-primary min-h-[150px]" 
-                        {...field} 
+                      <select
+                        {...field}
+                        className="w-full bg-background border border-input rounded-md px-3 py-2 text-sm"
+                      >
+                        {cakeOptions.map((cake) => (
+                          <option key={cake} value={cake}>
+                            {cake}
+                          </option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {desiredCake === "Other" && (
+                <FormField
+                  control={form.control}
+                  name="otherCake"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="uppercase font-bold tracking-wider">Custom Cake Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Tell us what your dream cake looks like..."
+                          className="bg-background border-input focus:border-primary min-h-[120px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              <FormField
+                control={form.control}
+                name="details"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="uppercase font-bold tracking-wider">Additional Details</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Share any other details we should know (venue, theme, allergies, etc.)"
+                        className="bg-background border-input focus:border-primary min-h-[150px]"
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
