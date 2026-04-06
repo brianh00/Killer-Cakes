@@ -148,6 +148,45 @@ async function sendContactEmail(mailData: nodemailer.SendMailOptions) {
       return fallbackTransporter.sendMail(mailData);
     }
 
+    if (process.env.RESEND_API_KEY) {
+      const resendFrom =
+        process.env.RESEND_FROM ||
+        process.env.EMAIL_FROM ||
+        process.env.EMAIL_SMTP_USER ||
+        "onboarding@resend.dev";
+
+      const toList = (process.env.EMAIL_TO || "")
+        .split(",")
+        .map((email) => email.trim())
+        .filter(Boolean);
+
+      const resendResponse = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: resendFrom,
+          to: toList.length > 0 ? toList : ["onboarding@resend.dev"],
+          subject: mailData.subject,
+          text: mailData.text,
+          html: mailData.html,
+          reply_to: process.env.EMAIL_SMTP_USER,
+        }),
+      });
+
+      if (!resendResponse.ok) {
+        const errorText = await resendResponse.text();
+        throw new Error(`Resend fallback failed (${resendResponse.status}): ${errorText}`);
+      }
+
+      const result = await resendResponse.json();
+      return {
+        messageId: result?.id || "resend-fallback",
+      };
+    }
+
     throw error;
   }
 }
