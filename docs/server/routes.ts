@@ -115,6 +115,43 @@ async function createTransporter() {
   });
 }
 
+async function sendContactEmail(mailData: nodemailer.SendMailOptions) {
+  const transporter = await createTransporter();
+
+  try {
+    return await transporter.sendMail(mailData);
+  } catch (error: any) {
+    // Render environments can occasionally time out to gmail on 587.
+    // Retry once on 465 if smtp.gmail.com is configured.
+    const host = process.env.EMAIL_SMTP_HOST || "";
+    const port = Number(process.env.EMAIL_SMTP_PORT || "587");
+    const user = process.env.EMAIL_SMTP_USER;
+    const pass = process.env.EMAIL_SMTP_PASS;
+
+    const isTimeout =
+      error?.code === "ETIMEDOUT" ||
+      error?.code === "ESOCKET" ||
+      String(error?.message || "").toLowerCase().includes("timeout");
+
+    if (isTimeout && host.toLowerCase() === "smtp.gmail.com" && port === 587 && user && pass) {
+      const fallbackTransporter = nodemailer.createTransport({
+        host,
+        port: 465,
+        secure: true,
+        auth: { user, pass },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 15000,
+        tls: { servername: host },
+      });
+
+      return fallbackTransporter.sendMail(mailData);
+    }
+
+    throw error;
+  }
+}
+
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
   app.get("/api/cakes", async (_req, res, next) => {
     try {
@@ -252,7 +289,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         html: `<p><strong>Name:</strong> ${body.name}</p><p><strong>Email:</strong> ${body.email}</p><p><strong>Phone:</strong> ${body.phone}</p><p><strong>Date:</strong> ${body.date}</p><p><strong>Desired Cake:</strong> ${selectedCake}</p><p><strong>Additional Details:</strong></p><p>${body.details.replace(/\n/g, "<br />")}</p>`,
       };
 
-      const info = await transporter.sendMail(mailData);
+      const info = await sendContactEmail(mailData);
 
       if (process.env.NODE_ENV !== "production") {
         const previewUrl = nodemailer.getTestMessageUrl(info);
