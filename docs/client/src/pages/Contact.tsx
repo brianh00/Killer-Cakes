@@ -1,20 +1,16 @@
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useLocation } from "wouter";
+import { useSearch } from "wouter";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-
-const cakeOptions = [
-  "Vintage Cherry Dream",
-  "Custom Portrait Cake",
-  "Sonic Speedster",
-  "Other",
-];
+import { cakes as fallbackCakes } from "@/data";
+import { fetchCakes, resolveCakeImage, type CakeData } from "@/lib/cakes";
 
 const formSchema = z
   .object({
@@ -38,9 +34,15 @@ const formSchema = z
 
 export function Contact() {
   const { toast } = useToast();
-  const [location] = useLocation();
-  const query = new URLSearchParams(location.split("?")[1] || "");
-  const preselectedCake = query.get("cake") || "";
+  const search = useSearch();
+  const preselectedCake = new URLSearchParams(search).get("cake") || "";
+  const [cakes, setCakes] = useState<CakeData[]>(fallbackCakes);
+
+  const cakeOptions = useMemo(() => [...cakes.map((c) => c.title), "Other"], [cakes]);
+  const cakeImageMap = useMemo(
+    () => Object.fromEntries(cakes.map((cake) => [cake.title, resolveCakeImage(cake.image)])),
+    [cakes],
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,6 +56,26 @@ export function Contact() {
       details: "",
     },
   });
+
+  useEffect(() => {
+    fetchCakes()
+      .then(setCakes)
+      .catch(() => {
+        // Keep bundled data as fallback for static-only hosting.
+      });
+  }, []);
+
+  useEffect(() => {
+    if (preselectedCake && cakeOptions.includes(preselectedCake)) {
+      form.setValue("desiredCake", preselectedCake);
+      return;
+    }
+
+    const current = form.getValues("desiredCake");
+    if (!cakeOptions.includes(current) && cakeOptions.length > 0) {
+      form.setValue("desiredCake", cakeOptions[0]);
+    }
+  }, [preselectedCake, cakeOptions, form]);
 
   const desiredCake = form.watch("desiredCake");
 
@@ -181,6 +203,21 @@ export function Contact() {
                   </FormItem>
                 )}
               />
+
+              {cakeImageMap[desiredCake] && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="mt-6 min-h-[340px] flex justify-center"
+                >
+                  <img
+                    src={cakeImageMap[desiredCake]}
+                    alt={desiredCake}
+                    className="w-3/5 h-[340px] object-cover rounded-md border border-border"
+                  />
+                </motion.div>
+              )}
 
               {desiredCake === "Other" && (
                 <FormField

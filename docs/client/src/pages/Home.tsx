@@ -1,33 +1,29 @@
 import { motion } from "framer-motion";
 import { CakeCard } from "@/components/ui/cake-card";
 import logoBackground from "@assets/killer_cake_1767727881317.jpg";
-import cherryCake from "@assets/cake_cherry_1767726882678.jpg";
-import sonicCake from "@assets/cake_sonic_1767726882679.jpg";
-import portraitCake from "@assets/cake_picture_1767727288673.jpg";
+import { cakes as fallbackCakes } from "@/data";
 import { Link } from "wouter";
 import { ArrowRight, Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { fetchCakes, resolveCakeImage, type CakeData } from "@/lib/cakes";
 
 export function Home() {
-  const featuredCakes = [
-    {
-      title: "Vintage Cherry Dream",
-      description: "A classic piped masterpiece featuring sky blue frosting and hand-placed maraschino cherries.",
-      price: "$75",
-      image: cherryCake,
-    },
-    {
-      title: "Custom Portrait Cake",
-      description: "Personalized edible art on a stunning blue-textured canvas. The perfect way to celebrate your favorite memories.",
-      price: "$110",
-      image: portraitCake,
-    },
-    {
-      title: "Sonic Speedster",
-      description: "Level up your celebration with this high-octane custom Sonic the Hedgehog themed cake.",
-      price: "$95",
-      image: sonicCake,
-    },
-  ];
+  const [cakes, setCakes] = useState<CakeData[]>(fallbackCakes);
+
+  useEffect(() => {
+    fetchCakes()
+      .then((list) => {
+        setCakes(
+          list.map((cake) => ({
+            ...cake,
+            image: resolveCakeImage(cake.image),
+          })),
+        );
+      })
+      .catch(() => {
+        // Keep bundled data as fallback for static-only hosting.
+      });
+  }, []);
 
   return (
     <div className="flex flex-col gap-0">
@@ -51,18 +47,18 @@ export function Home() {
           >
             <h1 className="text-5xl md:text-7xl lg:text-9xl font-heading text-primary mb-6 leading-tight">
               KILLER<br />
-              <span className="text-foreground text-stroke">TASTE</span>
+              TASTE
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-lg font-light">
               Atlanta's boldest custom cakes. We don't do boring. We do delicious, dangerous, and unforgettable.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="contact">
+              <Link href="/contact">
                 <a className="bg-primary hover:bg-primary/90 text-white px-8 py-4 font-heading uppercase text-lg tracking-widest transition-transform hover:scale-105 flex items-center justify-center gap-2">
                   Start Order <ArrowRight />
                 </a>
               </Link>
-              <Link href="about">
+              <Link href="/about">
                 <a className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 font-heading uppercase text-lg tracking-widest transition-colors flex items-center justify-center">
                   Our Story
                 </a>
@@ -80,7 +76,7 @@ export function Home() {
               <h2 className="text-4xl md:text-5xl font-heading mb-4 text-white">Fresh From The Lab</h2>
               <p className="text-muted-foreground">The latest creations from our kitchen.</p>
             </div>
-            <Link href="contact">
+            <Link href="/contact">
               <a className="text-primary hover:text-white transition-colors font-heading uppercase flex items-center gap-2">
                 View Full Menu <ArrowRight size={20} />
               </a>
@@ -88,11 +84,11 @@ export function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredCakes.map((cake, index) => (
+            {cakes.map((cake, index) => (
               <CakeCard
                 key={index}
                 {...cake}
-                orderLink={`contact?cake=${encodeURIComponent(cake.title)}`}
+                orderLink={`/contact?cake=${encodeURIComponent(cake.title)}`}
               />
             ))}
           </div>

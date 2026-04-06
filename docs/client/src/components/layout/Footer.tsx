@@ -1,4 +1,5 @@
-import { Instagram, Facebook, Twitter, MapPin, Mail, Phone } from "lucide-react";
+import { Instagram, MapPin, Mail, Phone } from "lucide-react";
+import { Link } from "wouter";
 
 export function Footer() {
   return (
@@ -11,14 +12,8 @@ export function Footer() {
               Bold flavors. Killer designs. Atlanta's most dangerous bakery.
             </p>
             <div className="flex justify-center md:justify-start gap-4">
-              <a href="#" className="p-2 bg-background rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
+              <a href="https://www.instagram.com/KillercakesGA" target="_blank" rel="noreferrer" className="p-2 bg-background rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
                 <Instagram size={20} />
-              </a>
-              <a href="#" className="p-2 bg-background rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="p-2 bg-background rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
-                <Twitter size={20} />
               </a>
             </div>
           </div>
@@ -32,11 +27,11 @@ export function Footer() {
               </div>
               <div className="flex items-center justify-center md:justify-start gap-2">
                 <Phone size={16} className="text-primary" />
-                <span>(404) 555-CAKE</span>
+                <span>(404) 528-8135</span>
               </div>
               <div className="flex items-center justify-center md:justify-start gap-2">
                 <Mail size={16} className="text-primary" />
-                <span>orders@killercakes.atl</span>
+                <span>killercakesatl@gmail.com</span>
               </div>
             </div>
           </div>
@@ -61,6 +56,10 @@ export function Footer() {
         </div>
         <div className="border-t border-border mt-12 pt-8 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} Killer Cakes Atlanta. All rights reserved.
+          <span className="mx-2">|</span>
+          <Link href="/admin">
+            <a className="underline hover:text-primary transition-colors">Admin</a>
+          </Link>
         </div>
       </div>
     </footer>

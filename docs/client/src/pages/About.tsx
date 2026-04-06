@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import heroImage from "@assets/generated_images/decadent_chocolate_drip_cake_hero_image.png";
+import nealImage from "@assets/neal.jpg";
 
 export function About() {
   return (
@@ -35,7 +36,6 @@ export function About() {
              transition={{ duration: 0.6, delay: 0.2 }}
              className="relative"
           >
-             <div className="absolute inset-0 border-4 border-primary transform translate-x-4 translate-y-4"></div>
              <img 
                src={heroImage} 
                alt="Baker working" 
@@ -43,6 +43,22 @@ export function About() {
              />
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-16 mx-auto w-full md:w-1/2"
+        >
+          <div className="relative overflow-hidden border border-primary/30 bg-card">
+            <img
+              src={nealImage}
+              alt="Neal of Killer Cakes"
+              className="block w-full aspect-[16/9] object-cover object-center"
+            />
+          </div>
+        </motion.div>
 
         {/* Community Commitment Section */}
         <motion.div

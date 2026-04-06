@@ -32,7 +32,9 @@ export function CakeCard({ image, title, description, price, orderLink }: CakeCa
       <div className="p-6">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-heading text-white">{title}</h3>
-          <span className="text-primary font-bold font-heading">{price}</span>
+          <span className="rounded-full bg-primary/12 px-3 py-1 text-sm font-semibold tracking-normal text-primary tabular-nums">
+            {price}
+          </span>
         </div>
         <p className="text-muted-foreground text-sm line-clamp-2">{description}</p>
       </div>

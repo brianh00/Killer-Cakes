@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
 import { rm, readFile } from "fs/promises";
@@ -59,6 +60,8 @@ async function buildAll() {
     external: externals,
     logLevel: "info",
   });
+
+  fs.copyFileSync('404.html', 'dist/public/404.html');
 }
 
 buildAll().catch((err) => {

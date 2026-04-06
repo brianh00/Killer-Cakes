@@ -30,7 +30,7 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
-const attachedAssetsDir = path.resolve(new URL("..", import.meta.url).pathname, "attached_assets");
+const attachedAssetsDir = path.resolve(process.cwd(), "attached_assets");
 if (fs.existsSync(attachedAssetsDir)) {
   app.use("/attached_assets", express.static(attachedAssetsDir));
 }

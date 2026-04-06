@@ -1,17 +1,15 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Facebook } from "lucide-react";
+import { Menu, X, Instagram } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
-  const base = import.meta.env.PROD ? "/Killer-Cakes/" : "/";
-  const normalizedLocation = location.startsWith(base) ? "/" + location.slice(base.length) : location;
 
   const links = [
-    { href: "", label: "Home" },
-    { href: "about", label: "About" },
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
   ];
 
   return (
@@ -29,14 +27,14 @@ export function Navbar() {
             <Link key={link.href} href={link.href}>
               <a
                 className={`text-sm font-medium transition-colors hover:text-primary uppercase tracking-widest ${
-                  normalizedLocation === `/${link.href}` ? "text-primary" : "text-muted-foreground"
+                  location === link.href ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 {link.label}
               </a>
             </Link>
           ))}
-          <Link href="contact">
+          <Link href="/contact">
             <a className="bg-primary text-primary-foreground px-6 py-2 font-heading text-sm uppercase skew-x-[-10deg] hover:skew-x-0 transition-transform">
               Order Now
             </a>
@@ -75,19 +73,20 @@ export function Navbar() {
                   </a>
                 </Link>
               ))}
-              <Link href="contact">
+              <Link href="/contact">
                 <a
                   onClick={() => setIsOpen(false)}
                   className={`text-2xl font-heading uppercase ${
-                    normalizedLocation === "/contact" ? "text-primary" : "text-muted-foreground"
+                    location === "/contact" ? "text-primary" : "text-muted-foreground"
                   }`}
                 >
                   Contact
                 </a>
               </Link>
               <div className="flex gap-4 mt-4 pt-4 border-t border-border">
-                <Instagram className="text-muted-foreground hover:text-primary transition-colors" />
-                <Facebook className="text-muted-foreground hover:text-primary transition-colors" />
+                <a href="https://www.instagram.com/KillercakesGA" target="_blank" rel="noreferrer">
+                  <Instagram className="text-muted-foreground hover:text-primary transition-colors" />
+                </a>
               </div>
             </div>
           </motion.div>
