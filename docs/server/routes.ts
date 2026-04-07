@@ -10,13 +10,13 @@ import { z } from "zod";
 const contactSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
-  phone: z.string().min(7),
-  date: z.string().refine((val) => !Number.isNaN(Date.parse(val)), {
+  phone: z.string().optional(),
+  date: z.string().optional().refine((val) => !val || !Number.isNaN(Date.parse(val)), {
     message: "Invalid date",
   }),
   desiredCake: z.string().min(1),
   otherCake: z.string().optional(),
-  details: z.string().min(10),
+  details: z.string().optional(),
 }).refine(
   (data) => data.desiredCake !== "Other" || (data.otherCake && data.otherCake.length > 5),
   {
@@ -30,6 +30,10 @@ const cakeSchema = z.object({
   description: z.string().min(1),
   price: z.string().min(1),
   image: z.string().min(1),
+});
+
+const adminSettingsSchema = z.object({
+  contactRecipientEmail: z.string().email(),
 });
 
 const cakesFileCandidates = [
@@ -49,6 +53,15 @@ const cakeImagesDir =
   cakeImagesDirCandidates.find((candidate) => fsSync.existsSync(candidate)) ??
   cakeImagesDirCandidates[0];
 
+const adminSettingsFileCandidates = [
+  path.resolve(process.cwd(), "server", "data", "admin-settings.json"),
+  path.resolve(process.cwd(), "docs", "server", "data", "admin-settings.json"),
+];
+
+const adminSettingsFilePath =
+  adminSettingsFileCandidates.find((candidate) => fsSync.existsSync(candidate)) ??
+  adminSettingsFileCandidates[0];
+
 const allowedImageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
 const upload = multer({
@@ -64,6 +77,25 @@ async function readCakes() {
 
 async function writeCakes(cakes: z.infer<typeof cakeSchema>[]) {
   await fs.writeFile(cakesFilePath, `${JSON.stringify(cakes, null, 2)}\n`, "utf-8");
+}
+
+async function readAdminSettings() {
+  const fallback = {
+    contactRecipientEmail: "brianh00@gmail.com",
+  };
+
+  try {
+    const raw = await fs.readFile(adminSettingsFilePath, "utf-8");
+    const parsed = JSON.parse(raw);
+    return adminSettingsSchema.parse(parsed);
+  } catch {
+    return fallback;
+  }
+}
+
+async function writeAdminSettings(settings: z.infer<typeof adminSettingsSchema>) {
+  await fs.mkdir(path.dirname(adminSettingsFilePath), { recursive: true });
+  await fs.writeFile(adminSettingsFilePath, `${JSON.stringify(settings, null, 2)}\n`, "utf-8");
 }
 
 function isAuthorizedAdminPassword(password: string | undefined) {
@@ -118,8 +150,8 @@ async function createTransporter() {
 async function sendContactEmail(mailData: nodemailer.SendMailOptions) {
   if (process.env.RESEND_API_KEY) {
     const resendFrom = process.env.RESEND_FROM || "Killer Cakes <onboarding@resend.dev>";
-
-    const toList = (process.env.EMAIL_TO || "")
+    const rawTo = Array.isArray(mailData.to) ? mailData.to.join(",") : String(mailData.to || "");
+    const toList = rawTo
       .split(",")
       .map((email) => email.trim())
       .filter(Boolean);
@@ -234,6 +266,35 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  app.get("/api/admin/settings", async (req, res, next) => {
+    try {
+      const password = req.header("x-admin-password");
+      if (!isAuthorizedAdminPassword(password)) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const settings = await readAdminSettings();
+      return res.status(200).json(settings);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.put("/api/admin/settings", async (req, res, next) => {
+    try {
+      const password = req.header("x-admin-password");
+      if (!isAuthorizedAdminPassword(password)) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const payload = adminSettingsSchema.parse(req.body);
+      await writeAdminSettings(payload);
+      return res.status(200).json(payload);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   app.post("/api/admin/cakes", async (req, res, next) => {
     try {
       const password = req.header("x-admin-password");
@@ -314,15 +375,17 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     try {
       const body = contactSchema.parse(req.body);
       const selectedCake = body.desiredCake === "Other" ? body.otherCake : body.desiredCake;
-
-      const transporter = await createTransporter();
+      const settings = await readAdminSettings();
+      const submittedPhone = body.phone || "Not provided";
+      const submittedDate = body.date || "Not provided";
+      const submittedDetails = body.details || "Not provided";
       const mailData = {
         from: `\"Killer Cakes Contact Form\" <${process.env.EMAIL_FROM || process.env.EMAIL_SMTP_USER}>`,
-        to: process.env.EMAIL_TO || "brianh00@gmail.com",
+        to: settings.contactRecipientEmail,
         subject: `Killer Cakes request from ${body.name}`,
         replyTo: body.email,
-        text: `Name: ${body.name}\nEmail: ${body.email}\nPhone: ${body.phone}\nDate: ${body.date}\nDesired Cake: ${selectedCake}\nAdditional Details:\n${body.details}`,
-        html: `<p><strong>Name:</strong> ${body.name}</p><p><strong>Email:</strong> ${body.email}</p><p><strong>Phone:</strong> ${body.phone}</p><p><strong>Date:</strong> ${body.date}</p><p><strong>Desired Cake:</strong> ${selectedCake}</p><p><strong>Additional Details:</strong></p><p>${body.details.replace(/\n/g, "<br />")}</p>`,
+        text: `Name: ${body.name}\nEmail: ${body.email}\nPhone: ${submittedPhone}\nDate: ${submittedDate}\nDesired Cake: ${selectedCake}\nAdditional Details:\n${submittedDetails}`,
+        html: `<p><strong>Name:</strong> ${body.name}</p><p><strong>Email:</strong> ${body.email}</p><p><strong>Phone:</strong> ${submittedPhone}</p><p><strong>Date:</strong> ${submittedDate}</p><p><strong>Desired Cake:</strong> ${selectedCake}</p><p><strong>Additional Details:</strong></p><p>${submittedDetails.replace(/\n/g, "<br />")}</p>`,
       };
 
       const info = await sendContactEmail(mailData);

@@ -19,11 +19,29 @@ export function Admin() {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isSavingSettings, setIsSavingSettings] = useState(false);
   const [authError, setAuthError] = useState("");
+  const [contactRecipientEmail, setContactRecipientEmail] = useState("");
 
   async function loadCakes() {
     const list = await fetchCakes();
     setCakes(list);
+  }
+
+  async function loadAdminSettings(password: string) {
+    const response = await fetch("/api/admin/settings", {
+      headers: {
+        "x-admin-password": password,
+      },
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(text || "Could not load admin settings");
+    }
+
+    const settings = (await response.json()) as { contactRecipientEmail: string };
+    setContactRecipientEmail(settings.contactRecipientEmail);
   }
 
   useEffect(() => {
@@ -34,6 +52,14 @@ export function Admin() {
     loadCakes().catch((error) => {
       toast({
         title: "Could not load cakes",
+        description: (error as Error).message,
+        variant: "destructive",
+      });
+    });
+
+    loadAdminSettings(adminPassword).catch((error) => {
+      toast({
+        title: "Could not load admin settings",
         description: (error as Error).message,
         variant: "destructive",
       });
@@ -153,6 +179,44 @@ export function Admin() {
       });
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function handleSaveSettings(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!adminPassword) {
+      return;
+    }
+
+    setIsSavingSettings(true);
+    try {
+      const response = await fetch("/api/admin/settings", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-password": adminPassword,
+        },
+        body: JSON.stringify({ contactRecipientEmail }),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || "Failed to save settings");
+      }
+
+      toast({
+        title: "Settings saved",
+        description: "Contact recipient email was updated.",
+      });
+    } catch (error) {
+      toast({
+        title: "Settings save failed",
+        description: (error as Error).message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSavingSettings(false);
     }
   }
 
@@ -284,7 +348,29 @@ export function Admin() {
     <div className="pt-24 pb-12 min-h-screen bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-[380px_1fr] gap-8">
-          <div className="bg-card border border-border p-6 h-fit">
+          <div className="space-y-6">
+            <div className="bg-card border border-border p-6 h-fit">
+              <h2 className="text-2xl font-heading text-primary mb-2">Contact Recipient</h2>
+              <form onSubmit={handleSaveSettings} className="space-y-3">
+                <input
+                  type="email"
+                  value={contactRecipientEmail}
+                  onChange={(event) => setContactRecipientEmail(event.target.value)}
+                  className="w-full bg-background border border-input rounded-md px-3 py-2"
+                  placeholder="recipient@example.com"
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={isSavingSettings}
+                  className="w-full bg-primary text-primary-foreground py-2 font-heading uppercase transition-colors hover:bg-primary/90 disabled:opacity-60"
+                >
+                  {isSavingSettings ? "Saving..." : "Save Recipient Email"}
+                </button>
+              </form>
+            </div>
+
+            <div className="bg-card border border-border p-6 h-fit">
             <h2 className="text-2xl font-heading text-primary mb-2">
               {editingIndex === null ? "Add Cake" : "Edit Cake"}
             </h2>
@@ -353,6 +439,7 @@ export function Admin() {
                 ) : null}
               </div>
             </form>
+          </div>
           </div>
 
           <div className="bg-card border border-border p-6">

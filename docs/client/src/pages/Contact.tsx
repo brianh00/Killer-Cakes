@@ -22,7 +22,9 @@ const formSchema = z
     }),
     desiredCake: z.string().min(1, "Please select a desired cake."),
     otherCake: z.string().optional(),
-    details: z.string().min(10, "Tell us more about your killer idea.").optional(),
+    details: z.string().optional().refine((val) => !val || val.length >= 10, {
+      message: "Tell us more about your killer idea.",
+    }),
   })
   .refine(
     (data) => data.desiredCake !== "Other" || (data.otherCake && data.otherCake.length > 5),
