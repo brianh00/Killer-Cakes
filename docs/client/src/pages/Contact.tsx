@@ -17,10 +17,12 @@ const formSchema = z
     name: z.string().min(2, "Name must be at least 2 characters."),
     email: z.string().email("Invalid email address."),
     phone: z.string().optional(),
-    date: z.string().optional(),
+    date: z.string().optional().refine((val) => !val || !isNaN(Date.parse(val)), {
+      message: "Please select a valid date",
+    }),
     desiredCake: z.string().min(1, "Please select a desired cake."),
     otherCake: z.string().optional(),
-    details: z.string().optional(),
+    details: z.string().min(10, "Tell us more about your killer idea.").optional(),
   })
   .refine(
     (data) => data.desiredCake !== "Other" || (data.otherCake && data.otherCake.length > 5),
