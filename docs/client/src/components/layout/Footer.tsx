@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="bg-muted py-12 border-t border-border mt-auto">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-12 text-center md:text-left">
+        <div className="grid md:grid-cols-2 gap-12 text-center md:text-left">
           <div>
             <h3 className="text-2xl font-heading text-primary mb-4">Killer Cakes</h3>
             <p className="text-muted-foreground mb-4">
@@ -34,24 +34,6 @@ export function Footer() {
                 <span>killercakesatl@gmail.com</span>
               </div>
             </div>
-          </div>
-
-          <div>
-            <h4 className="font-heading text-lg mb-4">Hours</h4>
-            <ul className="space-y-2 text-muted-foreground">
-              <li className="flex justify-between max-w-[200px] mx-auto md:mx-0">
-                <span>Tue - Thu</span>
-                <span>10am - 7pm</span>
-              </li>
-              <li className="flex justify-between max-w-[200px] mx-auto md:mx-0">
-                <span>Fri - Sat</span>
-                <span>10am - 9pm</span>
-              </li>
-              <li className="flex justify-between max-w-[200px] mx-auto md:mx-0">
-                <span>Sun - Mon</span>
-                <span className="text-destructive">Closed</span>
-              </li>
-            </ul>
           </div>
         </div>
         <div className="border-t border-border mt-12 pt-8 text-center text-sm text-muted-foreground">
