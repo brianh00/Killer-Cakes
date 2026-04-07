@@ -87,6 +87,10 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (process.env.NODE_ENV === "production") {
+    app.get("/", (_req, res) => {
+      res.redirect(302, "/Killer-Cakes/");
+    });
+
     serveStatic(app);
   } else {
     const { setupVite } = await import("./vite");

@@ -78,6 +78,10 @@ export function Contact() {
   }, [preselectedCake, cakeOptions, form]);
 
   const desiredCake = form.watch("desiredCake");
+  const selectedCake = useMemo(
+    () => cakes.find((cake) => cake.title === desiredCake),
+    [cakes, desiredCake],
+  );
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -203,6 +207,19 @@ export function Contact() {
                   </FormItem>
                 )}
               />
+
+              {selectedCake && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-md border border-border bg-background/80 px-4 py-3"
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground">
+                    Selected Cake Price
+                  </p>
+                  <p className="mt-1 text-2xl font-heading text-primary">{selectedCake.price}</p>
+                </motion.div>
+              )}
 
               {cakeImageMap[desiredCake] && (
                 <motion.div
