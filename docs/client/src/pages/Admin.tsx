@@ -246,6 +246,7 @@ export function Admin() {
   function handleEdit(index: number) {
     setEditingIndex(index);
     setForm(cakes[index]);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   if (!adminPassword) {
@@ -301,13 +302,6 @@ export function Admin() {
                 onChange={(event) => setForm((prev) => ({ ...prev, price: event.target.value }))}
                 className="w-full bg-background border border-input rounded-md px-3 py-2"
                 placeholder="Price, e.g. $85"
-                required
-              />
-              <input
-                value={form.image}
-                onChange={(event) => setForm((prev) => ({ ...prev, image: event.target.value }))}
-                className="w-full bg-background border border-input rounded-md px-3 py-2"
-                placeholder="Image filename, e.g. cat.jpeg"
                 required
               />
               <div className="space-y-2">
