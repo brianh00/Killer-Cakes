@@ -288,7 +288,6 @@ export function Admin() {
             <h2 className="text-2xl font-heading text-primary mb-2">
               {editingIndex === null ? "Add Cake" : "Edit Cake"}
             </h2>
-            <p className="text-muted-foreground mb-4">Updates save directly to cakes.json.</p>
             <form onSubmit={handleSave} className="space-y-3">
               <input
                 value={form.title}

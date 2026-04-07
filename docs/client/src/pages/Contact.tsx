@@ -16,13 +16,11 @@ const formSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters."),
     email: z.string().email("Invalid email address."),
-    phone: z.string().min(7, "Please enter a phone number."),
-    date: z.string().refine((val) => !isNaN(Date.parse(val)), {
-      message: "Please select a valid date",
-    }),
+    phone: z.string().optional(),
+    date: z.string().optional(),
     desiredCake: z.string().min(1, "Please select a desired cake."),
     otherCake: z.string().optional(),
-    details: z.string().min(10, "Tell us more about your killer idea."),
+    details: z.string().optional(),
   })
   .refine(
     (data) => data.desiredCake !== "Other" || (data.otherCake && data.otherCake.length > 5),
@@ -37,6 +35,7 @@ export function Contact() {
   const search = useSearch();
   const preselectedCake = new URLSearchParams(search).get("cake") || "";
   const [cakes, setCakes] = useState<CakeData[]>(fallbackCakes);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const cakeOptions = useMemo(() => [...cakes.map((c) => c.title), "Other"], [cakes]);
   const cakeImageMap = useMemo(
@@ -120,6 +119,7 @@ export function Contact() {
         >
           <h1 className="text-5xl md:text-7xl font-heading text-primary mb-4">Get In Touch</h1>
           <p className="text-xl text-muted-foreground">Ready to order? Tell us what you're craving.</p>
+          <p className="text-sm text-muted-foreground mt-3"><strong>Note:</strong> We currently serve the Atlanta area only.</p>
         </motion.div>
 
         <div className="grid md:grid-cols-1 gap-12 bg-card p-8 md:p-12 border border-border relative overflow-hidden">
@@ -274,8 +274,12 @@ export function Contact() {
                 )}
               />
 
-              <Button type="submit" className="w-full h-14 text-lg font-heading uppercase tracking-widest bg-primary hover:bg-primary/90 text-primary-foreground">
-                Send Request
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full h-14 text-lg font-heading uppercase tracking-widest bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-60"
+              >
+                {isSubmitting ? "Sending..." : "Send Request"}
               </Button>
             </form>
           </Form>
