@@ -117,11 +117,7 @@ async function createTransporter() {
 
 async function sendContactEmail(mailData: nodemailer.SendMailOptions) {
   if (process.env.RESEND_API_KEY) {
-    const resendFrom =
-      process.env.RESEND_FROM ||
-      process.env.EMAIL_FROM ||
-      process.env.EMAIL_SMTP_USER ||
-      "onboarding@resend.dev";
+    const resendFrom = process.env.RESEND_FROM || "Killer Cakes <onboarding@resend.dev>";
 
     const toList = (process.env.EMAIL_TO || "")
       .split(",")
@@ -140,7 +136,7 @@ async function sendContactEmail(mailData: nodemailer.SendMailOptions) {
         subject: mailData.subject,
         text: mailData.text,
         html: mailData.html,
-        reply_to: process.env.EMAIL_SMTP_USER,
+        reply_to: mailData.replyTo,
       }),
     });
 
@@ -324,6 +320,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         from: `\"Killer Cakes Contact Form\" <${process.env.EMAIL_FROM || process.env.EMAIL_SMTP_USER}>`,
         to: process.env.EMAIL_TO || "brianh00@gmail.com",
         subject: `Killer Cakes request from ${body.name}`,
+        replyTo: body.email,
         text: `Name: ${body.name}\nEmail: ${body.email}\nPhone: ${body.phone}\nDate: ${body.date}\nDesired Cake: ${selectedCake}\nAdditional Details:\n${body.details}`,
         html: `<p><strong>Name:</strong> ${body.name}</p><p><strong>Email:</strong> ${body.email}</p><p><strong>Phone:</strong> ${body.phone}</p><p><strong>Date:</strong> ${body.date}</p><p><strong>Desired Cake:</strong> ${selectedCake}</p><p><strong>Additional Details:</strong></p><p>${body.details.replace(/\n/g, "<br />")}</p>`,
       };
