@@ -33,7 +33,7 @@
 }
 
 :root {
-  /* Dark Mode Default Theme (Killer Cakes Aesthetic) */
+  /* Dark Mode Default Theme (Sprinkle Kindness Bakery Aesthetic) */
   --background: 0 0% 9%; /* Deep Charcoal #171717 */
   --foreground: 0 0% 98%; /* Off White */
 
@@ -43,8 +43,8 @@
   --popover: 0 0% 9%;
   --popover-foreground: 0 0% 98%;
 
-  /* Killer Raspberry/Pink Accent */
-  --primary: 336 100% 50%; /* #FF0055 */
+  /* Warm Orange Accent for Kindness Theme */
+  --primary: 25 100% 50%; /* #FF8000 */
   --primary-foreground: 0 0% 100%;
 
   /* Secondary Accent - Gold/Yellow */
@@ -54,7 +54,7 @@
   --muted: 0 0% 15%;
   --muted-foreground: 0 0% 65%;
 
-  --accent: 336 80% 20%;
+  --accent: 25 80% 20%;
   --accent-foreground: 0 0% 98%;
 
   --destructive: 0 62.8% 30.6%;
@@ -62,7 +62,7 @@
 
   --border: 0 0% 20%;
   --input: 0 0% 20%;
-  --ring: 336 100% 50%;
+  --ring: 25 100% 50%;
 
   --radius: 0rem; /* Sharp edges for that Killer vibe, maybe slightly rounded on cards */
 }

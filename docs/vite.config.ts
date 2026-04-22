@@ -45,8 +45,11 @@ export default defineConfig({
     host: "0.0.0.0",
     allowedHosts: true,
     fs: {
-      strict: true,
-      allow: [path.resolve(import.meta.dirname, "attached_assets")],
+      strict: false,
+      allow: [
+        path.resolve(import.meta.dirname, "client"),
+        path.resolve(import.meta.dirname, "attached_assets")
+      ],
       deny: ["**/.*"],
     },
   },
