@@ -7,16 +7,15 @@
     "dev:client": "vite dev --port 5000",
     "dev": "cross-env NODE_ENV=development tsx server/index.ts",
     "build": "tsx script/build.ts",
-    "build:killer": "tsx script/themeBuild.ts killer",
-    "build:sprinkle": "tsx script/themeBuild.ts sprinkle",
-    "deploy:killer": "tsx script/themeDeploy.ts killer",
-    "deploy:sprinkle": "tsx script/themeDeploy.ts sprinkle",
     "build:gh-pages": "cross-env VITE_BASE_PATH=/Killer-Cakes/ tsx script/build.ts",
     "predeploy": "npm run build:gh-pages",
     "deploy": "gh-pages -d dist/public -b gh-pages",
     "start": "cross-env NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "copy:killer": "tsx script/copyTheme.ts killer",
+    "copy:sprinkle": "tsx script/copyTheme.ts sprinkle",
+    "copy:sprinkly": "tsx script/copyTheme.ts sprinkle"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

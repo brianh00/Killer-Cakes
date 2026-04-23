@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Vintage Cherry Dream",
+    "description": "A classic piped masterpiece featuring sky blue frosting and hand-placed maraschino cherries. Pure retro elegance on every tier.",
+    "price": "$85",
+    "image": "cake_cherry_1767726882678.jpg"
+  },
+  {
+    "title": "Custom Portrait Cake",
+    "description": "Personalized edible art on a stunning blue-textured canvas. The perfect way to celebrate your favorite memories.",
+    "price": "$110",
+    "image": "cake_picture_1767727288673.jpg"
+  },
+  {
+    "title": "Sonic Speedster",
+    "description": "Level up your celebration with this high-octane custom Sonic the Hedgehog themed cake.",
+    "price": "$95",
+    "image": "cake_sonic_1767726882679.jpg"
+  },
+  {
+    "title": "Curious Cat",
+    "description": "An adorably crafted cat-themed cake with detailed fondant sculpting and a playful feline design that'll have everyone cooing before they dig in.",
+    "price": "$85",
+    "image": "cat.jpeg"
+  },
+  {
+    "title": "Halloween Haunted",
+    "description": "A spine-chilling Halloween masterpiece dripping with eerie colors, spooky toppers, and wicked flavor that's frighteningly delicious.",
+    "price": "$90",
+    "image": "halloween.jpg"
+  },
+  {
+    "title": "Hello Kitty Dreams",
+    "description": "Sweet, adorable, and totally iconic — this Hello Kitty themed cake is a pastel dreamland of kawaii perfection for any age.",
+    "price": "$90",
+    "image": "hellokitty.jpg"
+  },
+  {
+    "title": "Lemon Sunburst",
+    "description": "Bright, zesty, and dripping in citrus glory — a sunshine lemon layer cake with tangy frosting and a refreshing bite that'll wake up every taste bud.",
+    "price": "$80",
+    "image": "lemon.jpeg"
+  },
+  {
+    "title": "Reese's Revenge",
+    "description": "A peanut butter and chocolate lover's wildest dream — rich layers of Reese's-infused cake stacked high with a bold, indulgent finish.",
+    "price": "$85",
+    "image": "reese.jpg"
+  },
+  {
+    "title": "Vanilla ButterDream Cupcakes",
+    "description": "Delightful vanilla cupcakes topped with a dreamy buttercream frosting, perfect for any celebration.",
+    "price": "$45",
+    "image": "Vanilla_ButterDream_Cupcakes.jpg"
+  }
+]
