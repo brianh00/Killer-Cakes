@@ -99,9 +99,9 @@ export function Home() {
             ))}
           </div>
           <blockquote className="text-3xl md:text-5xl font-heading leading-tight mb-8 max-w-4xl mx-auto">
-            "I ordered a cake for my ex's wedding. It was prettier than the bride. 10/10 would recommend."
+            "Helping to serve the community one cake at a time. Their kindness and creativity made our event unforgettable."
           </blockquote>
-          <cite className="not-italic font-bold tracking-widest uppercase opacity-80">- Sarah J., Buckhead</cite>
+          <cite className="not-italic font-bold tracking-widest uppercase opacity-80">- Community Member, East Atlanta</cite>
         </div>
       </section>
     </div>
