@@ -12,16 +12,16 @@ export function About() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-5xl md:text-7xl font-heading mb-8 text-primary">From Our Oven to Your Community</h1>
+            <h1 className="text-5xl md:text-7xl font-heading mb-8 text-primary">Not Your Grandma's Bakery</h1>
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                We started Sprinkle Kindness Bakery in a cozy community kitchen in East Atlanta Village with one goal: <strong className="text-white">Spreading kindness through every bite.</strong>
+                We started Killer Cakes in a tiny basement kitchen in East Atlanta Village with one goal: <strong className="text-white">Death to boring cakes.</strong>
               </p>
               <p>
-                We believe that the best celebrations bring people together with warmth and care. Our cakes are made with love, using high-quality ingredients that nourish both body and soul. From our oven to your community, we create treats that make a difference.
+                Too many celebrations are ruined by dry sponge and overly sweet, flavorless fondant. We believe a cake should be the main event. It should be loud, it should be bold, and it should taste even better than it looks.
               </p>
               <p>
-                We use fresh, locally sourced ingredients whenever possible, focusing on sustainability and supporting our neighbors. No shortcuts, just genuine care in every recipe.
+                We use high-quality ingredients, locally sourced when we can, and we don't skimp on the good stuff. Real butter, real chocolate, fresh fruit. No preservatives, no shortcuts.
               </p>
               <div className="p-6 border-l-4 border-primary bg-card mt-8">
                 <h3 className="text-xl font-heading text-white mb-2">The Killer Guarantee</h3>
@@ -54,7 +54,7 @@ export function About() {
           <div className="relative overflow-hidden border border-primary/30 bg-card">
             <img
               src={nealImage}
-              alt="Neal of Sprinkle Kindness Bakery"
+              alt="Neal of Killer Cakes"
               className="block w-full aspect-[16/9] object-cover object-center"
             />
           </div>
@@ -74,7 +74,7 @@ export function About() {
               "My friends and neighbors who want to support our local communities: now more than ever, it is important to learn about and support nearby food banks."
             </p>
             <p className="mb-6">
-              Sprinkle Kindness Bakery is committed to giving back and will soon be reaching out to churches and food banks throughout the Kennesaw area. While food safety and liability regulations often prevent the donation of open food items such as cupcakes, there are still meaningful ways to help.
+              Killer Cakes is committed to giving back and will soon be reaching out to churches and food banks throughout the Kennesaw area. While food safety and liability regulations often prevent the donation of open food items such as cupcakes, there are still meaningful ways to help.
             </p>
             <p className="mb-6">
               We can donate canned goods, and we can donate revenue to organizations that serve those in need. Each of us has the ability to make a difference. No contribution is too small. Every bit truly counts.
