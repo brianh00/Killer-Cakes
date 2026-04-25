@@ -16,8 +16,8 @@
     "copy:killer": "tsx script/copyTheme.ts killer",
     "copy:sprinkle": "tsx script/copyTheme.ts sprinkle",
     "copy:sprinkly": "tsx script/copyTheme.ts sprinkle",
-    "switch:killer": "npm run copy:killer && npm run build",
-    "switch:sprinkle": "npm run copy:sprinkle && npm run build"
+    "switch:killer": "npm run copy:killer && npm run build && timeout /t 2 /nobreak && git add -A && git commit -m \"Switch to killer theme\" && git push",
+    "switch:sprinkle": "npm run copy:sprinkle && npm run build && timeout /t 2 /nobreak && git add -A && git commit -m \"Switch to sprinkle theme\" && git push"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
