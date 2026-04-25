@@ -15,7 +15,9 @@
     "db:push": "drizzle-kit push",
     "copy:killer": "tsx script/copyTheme.ts killer",
     "copy:sprinkle": "tsx script/copyTheme.ts sprinkle",
-    "copy:sprinkly": "tsx script/copyTheme.ts sprinkle"
+    "copy:sprinkly": "tsx script/copyTheme.ts sprinkle",
+    "switch:killer": "npm run copy:killer && npm run build",
+    "switch:sprinkle": "npm run copy:sprinkle && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { CakeCard } from "@/components/ui/cake-card";
-import logoBackground from "@assets/killer_cake_1767727881317.jpg";
 import { cakes as fallbackCakes } from "@/data";
 import { Link } from "wouter";
 import { ArrowRight, Star } from "lucide-react";
@@ -29,12 +28,7 @@ export function Home() {
     <div className="flex flex-col gap-0">
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={logoBackground}
-            alt="Killer Cakes"
-            className="w-full h-full object-cover opacity-40 mix-blend-luminosity"
-          />
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-orange-100 via-yellow-50 to-pink-100">
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
         </div>
 
@@ -46,11 +40,11 @@ export function Home() {
             className="max-w-2xl"
           >
             <h1 className="text-5xl md:text-7xl lg:text-9xl font-heading text-primary mb-6 leading-tight">
-              KILLER<br />
-              TASTE
+              SPRINKLE<br />
+              KINDNESS
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-lg font-light">
-              Atlanta's boldest custom cakes. We don't do boring. We do delicious, dangerous, and unforgettable.
+              From our oven to your community. Kindness in every bite. Small treats. Big impact.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact">
@@ -105,9 +99,9 @@ export function Home() {
             ))}
           </div>
           <blockquote className="text-3xl md:text-5xl font-heading leading-tight mb-8 max-w-4xl mx-auto">
-            "I ordered a cake for my ex's wedding. It was prettier than the bride. 10/10 would recommend."
+            "Helping to serve the community one cake at a time. Their kindness and creativity made our event unforgettable."
           </blockquote>
-          <cite className="not-italic font-bold tracking-widest uppercase opacity-80">- Sarah J., Buckhead</cite>
+          <cite className="not-italic font-bold tracking-widest uppercase opacity-80">- Community Member, East Atlanta</cite>
         </div>
       </section>
     </div>
