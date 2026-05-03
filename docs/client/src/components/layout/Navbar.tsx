@@ -17,7 +17,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/">
           <a className="text-2xl md:text-3xl font-heading text-primary tracking-tighter hover:scale-105 transition-transform">
-            SPRINKLE KINDNESS BAKERY
+            KILLER CAKES
           </a>
         </Link>
 
