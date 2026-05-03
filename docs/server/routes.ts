@@ -149,7 +149,7 @@ async function createTransporter() {
 
 async function sendContactEmail(mailData: nodemailer.SendMailOptions) {
   if (process.env.RESEND_API_KEY) {
-    const resendFrom = process.env.RESEND_FROM || "Sprinkle Kindness Bakery <onboarding@resend.dev>";
+    const resendFrom = process.env.RESEND_FROM || "Killer Cakes <onboarding@resend.dev>";
     const rawTo = Array.isArray(mailData.to) ? mailData.to.join(",") : String(mailData.to || "");
     const toList = rawTo
       .split(",")
@@ -380,9 +380,9 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       const submittedDate = body.date || "Not provided";
       const submittedDetails = body.details || "Not provided";
       const mailData = {
-        from: `\"Sprinkle Kindness Bakery Contact Form\" <${process.env.EMAIL_FROM || process.env.EMAIL_SMTP_USER}>`,
+        from: `\"Killer Cakes Contact Form\" <${process.env.EMAIL_FROM || process.env.EMAIL_SMTP_USER}>`,
         to: settings.contactRecipientEmail,
-        subject: `Sprinkle Kindness Bakery request from ${body.name}`,
+        subject: `Killer Cakes request from ${body.name}`,
         replyTo: body.email,
         text: `Name: ${body.name}\nEmail: ${body.email}\nPhone: ${submittedPhone}\nDate: ${submittedDate}\nDesired Cake: ${selectedCake}\nAdditional Details:\n${submittedDetails}`,
         html: `<p><strong>Name:</strong> ${body.name}</p><p><strong>Email:</strong> ${body.email}</p><p><strong>Phone:</strong> ${submittedPhone}</p><p><strong>Date:</strong> ${submittedDate}</p><p><strong>Desired Cake:</strong> ${selectedCake}</p><p><strong>Additional Details:</strong></p><p>${submittedDetails.replace(/\n/g, "<br />")}</p>`,
